@@ -2,21 +2,26 @@ package utils;
 
 import java.time.Duration;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SeleniumWrappers extends BaseTest {
+	
+	public SeleniumWrappers(WebDriver driver) {
+		this.driver=driver;
+	}
 
 	
-	public void click(By locator) {
+	public void click(WebElement element) {
 		
 		try {
 		
 		WebDriverWait wait =  new WebDriverWait(driver, Duration.ofSeconds(10));
-		wait.until(ExpectedConditions.elementToBeClickable(locator));
-		WebElement element = driver.findElement(locator);	
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+		//WebElement element = driver.findElement(locator);	
 		element.click();
 		
 		}catch(Exception e) {
@@ -51,13 +56,16 @@ public class SeleniumWrappers extends BaseTest {
 	
 	
 	
-	public void sendKeys(By locator, String text) {
+	public void sendKeys(WebElement element, String text) {
 		
 		WebDriverWait wait =  new WebDriverWait(driver, Duration.ofSeconds(10));
-		wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-		driver.findElement(locator).clear();
-		driver.findElement(locator).sendKeys(text);
+		wait.until(ExpectedConditions.visibilityOf(element));
+		element.clear();
+		element.sendKeys(text);
 		
+	}
+	public boolean checkElementisDisplayed(WebElement element) {
+		return element.isDisplayed();
 	}
 	
 }
