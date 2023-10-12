@@ -17,14 +17,15 @@ import com.google.common.io.Files;
 
 import pages.BasePage;
 
-public class BaseTest {
+public class BaseTest extends Driver {
 	
-	public static WebDriver driver;
+	public WebDriver driver;
 	public BasePage app;
-	@Parameters({"appURL"})
+	@Parameters({"appURL", "browser"})
 	@BeforeClass(alwaysRun = true)
-	public void setup(String orice) {
-		driver = new ChromeDriver();
+	public void setup(String orice, String browser) {
+		//driver = new ChromeDriver();
+		driver = initDriver(browser);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		//driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
