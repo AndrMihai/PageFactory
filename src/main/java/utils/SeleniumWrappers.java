@@ -1,12 +1,16 @@
 package utils;
 
 import java.time.Duration;
+import java.util.NoSuchElementException;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.TestException;
 
 public class SeleniumWrappers extends BaseTest {
 	
@@ -24,10 +28,15 @@ public class SeleniumWrappers extends BaseTest {
 		//WebElement element = driver.findElement(locator);	
 		element.click();
 		
-		}catch(Exception e) {
-			
+		}catch(NoSuchElementException e) {
+			Log.error("Element not found in method <click()> after 10 sec wait" + element);
+			Log.error(e.getMessage());
+			throw new TestException("Element not found in method <click()> after 10 sec wait");
+		}catch (StaleElementReferenceException e) {
+			Log.error("StaleException on element " + element);
+			element.click();
+		}
 		}	
-	}
 	
 	public void scrollByPixels(int x, int y) {
 		Actions action =  new Actions(driver);	
